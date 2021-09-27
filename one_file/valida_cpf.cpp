@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iostream>
 #include <string>
 #include <sstream>
 #include <string.h>
@@ -26,36 +25,39 @@ int cpfAlgorythm(string cpf)
         dig_verific_1 = 0, sum_dig_verific_1 = 0, 
         dig_verific_2 = 0, sum_dig_verific_2 = 0;
 
+    if (cpf != "00000000000" && cpf != "11111111111" && cpf != "22222222222" && cpf != "33333333333" &&
+        cpf != "44444444444" && cpf != "55555555555" && cpf != "66666666666" && cpf != "77777777777" &&
+        cpf != "88888888888" && cpf != "99999999999"){   
+        
+        // Calculo primeiro digito verificador
+        for (int i = 0; i <= 8; i++)
+        {
+            sum_dig_verific_1 += (cpf[i] - 48) * (10 - i);
+        }
+        if (sum_dig_verific_1 % 11 >= 2)
+        {
+            dig_verific_1 = 11 - (sum_dig_verific_1 % 11);
+        }
+        cpf[9] = dig_verific_1 + '0';
 
-    // Calculo primeiro digito verificador
-    for (int i = 0; i <= 8; i++)
-    {
-        sum_dig_verific_1 += (cpf[i] - 48) * (10 - i);
-    }
-    if (sum_dig_verific_1 % 11 >= 2)
-    {
-        dig_verific_1 = 11 - (sum_dig_verific_1 % 11);
-    }
-    cpf[9] = dig_verific_1 + '0';
 
+        // Calculo segundo digito verificador
+        for (int i = 0; i <= 9; i++)
+        {
+            sum_dig_verific_2 += (cpf[i] - 48) * (11 - i);
+        }
 
-    // Calculo segundo digito verificador
-    for (int i = 0; i <= 9; i++)
-    {
-        sum_dig_verific_2 += (cpf[i] - 48) * (11 - i);
-    }
+        if (sum_dig_verific_2 % 11 >= 2)
+        {
+            dig_verific_2 = 11 - (sum_dig_verific_2 % 11);
+        }
+        cpf[10] = dig_verific_2 + '0';
 
-    if (sum_dig_verific_2 % 11 >= 2)
-    {
-        dig_verific_2 = 11 - (sum_dig_verific_2 % 11);
+        if (dig_1 == cpf[9] && dig_2 == cpf[10])
+        {
+            verify = 1;
+        }
     }
-    cpf[10] = dig_verific_2 + '0';
-
-    if (dig_1 == cpf[9] && dig_2 == cpf[10])
-    {
-        verify = 1;
-    }
-    
     return verify;
 }
 
@@ -68,14 +70,12 @@ long long validarCPF(string cpf_string, long long cpf)
         if (verify == 1){
             return cpf;
         }
-        
-        cout << "\nCPF invalido. Tente novamente \n";
+        cout << "\nCPF invalido Tente novamente \n";
         return 0;
     }
     catch(const std::exception& e)
     {
-        cout << "\nCPF invalido. Tente novamente \n";
-        // std::cerr << e.what() << '\n';
+        cout << "\nO CPF foi inserido no formato errado. Tente novamente \n";
         return 0;
     }
     
@@ -93,15 +93,14 @@ long long getCPF(int id){
         getline(cin, cpf_string);
         cpf = stoll(cpf_string);
         if (strlen(cpf_string.c_str()) != 11){
-            cout << "\nCPF invalido. Tente novamente \n";
+            cout << "\nO CPF foi inserido no formato errado. Tente novamente \n";
             return 0;
         }
         return validarCPF(cpf_string, cpf);
     }
     catch(const std::exception& e)
     {
-        cout << "\nCPF invalido. Tente novamente \n";
-        // std::cerr << e.what() << '\n';
+        cout << "\nO CPF foi inserido no formato errado. Tente novamente \n";
         return 0;
     }
     
@@ -130,7 +129,6 @@ int getIdade(int id)
     catch(const std::exception& e)
     {
         cout << "\nInsira a idade no formato correto.\n";
-        // std::cerr << e.what() << '\n';
         return 0;
     }
     
@@ -139,10 +137,10 @@ int getIdade(int id)
 
 void printData(Pessoa * person)
 {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 1; i++)
     {
-        cout << "\nCPF: " << person[i].cpf << " Nome: "<< person[i].nome 
-        << " Idade: " << person[i].idade;
+        cout << "\nCPF: " << person[i].cpf << "\nNome: "<< person[i].nome 
+        << "\nIdade: " << person[i].idade;
     }
     
 }
@@ -151,16 +149,16 @@ void printData(Pessoa * person)
 int getPersons(Pessoa * person)
 {
     int i = 0;
-    long long cpf_validated = 0;
+    long long cpf_validate = 0;
     
 
-    while (i < 3)
+    while (i < 1)
     {
-        cpf_validated = getCPF(i);
+        cpf_validate = getCPF(i);
 
-        if (cpf_validated != 0)
+        if (cpf_validate != 0)
         {
-            person[i].cpf = cpf_validated;
+            person[i].cpf = cpf_validate;
             person[i].nome = getNome(i);
             person[i].idade = getIdade(i);
             i++;
@@ -173,13 +171,13 @@ int getPersons(Pessoa * person)
 
 int main(){
 
-    std::cout << "Valida CPF" << std::endl;
-    Pessoa persons[3];
+    std::cout << "Validador de CPF" << std::endl;
+    Pessoa persons[1];
 
     int cpf_val = getPersons(persons);
 
     if (cpf_val == 1){
-        cout << "\nOs CPFs estao corretos. Imprimindo os dados\n";
+        cout << "O CPF é valido. Imprimindo os dados inseridos\n";
         cout << "\n---------------------------------------\n";
         printData(persons);
         cout << "\n---------------------------------------\n";
@@ -187,4 +185,3 @@ int main(){
 
     return 0;
 }
-
