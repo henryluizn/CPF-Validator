@@ -3,13 +3,13 @@
 
 int main(){
 
-    std::cout << "Valida CPF" << std::endl;
-    Pessoa persons[3];
+    std::cout << "Validador de CPF" << std::endl;
+    Pessoa persons[1];
 
     int cpf_val = getPersons(persons);
 
     if (cpf_val == 1){
-        cout << "\nOs CPFs estao corretos. Imprimindo os dados\n";
+        cout << "O CPF é valido. Imprimindo os dados inseridos\n";
         cout << "\n---------------------------------------\n";
         printData(persons);
         cout << "\n---------------------------------------\n";
